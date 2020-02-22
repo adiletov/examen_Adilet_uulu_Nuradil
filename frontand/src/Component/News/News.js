@@ -18,6 +18,7 @@ class News extends Component {
                         <Card key={key.id}>
                             <NewsImage
                                 image={key.image}
+                                width={'200px'}
                             />
                             <CardBody>
                                 <CardSubtitle>{key.heading}</CardSubtitle>

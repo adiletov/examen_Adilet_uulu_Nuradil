@@ -23,7 +23,7 @@ const upload = multer({storage});
 
 
 router.get('/', async (req,res)=>{
-    const news = await mysqlDb.getConnection().query('SELECT * FROM `news`');
+    const news = await mysqlDb.getConnection().query('SELECT `heading`, `image`,`date`, `id`  FROM `news`');
     res.send(news)
 });
 
@@ -48,6 +48,7 @@ router.post('/', upload.single('image'), async (req,res)=>{
 
 router.delete('/:id', async (req,res)=>{
     const id = req.params.id;
+    await mysqlDb.getConnection().query('DELETE FROM `comments` WHERE `news_id` = ?', id);
     await mysqlDb.getConnection().query('DELETE FROM `news` WHERE `id` = ?', id);
     res.send("Deleted")
 });
