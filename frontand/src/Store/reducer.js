@@ -1,9 +1,19 @@
+import {ORDER_NEWS_ID_SUCCESS, ORDER_NEWS_SUCCESS} from "./actionType";
+
 const initialState = {
-  news: null
+  news: null,
+    oneNews: null,
 };
 
 const reducer = (state = initialState, action)=>{
-    return state
+    switch (action.type) {
+        case ORDER_NEWS_SUCCESS:
+            return {...state, news: action.news};
+        case ORDER_NEWS_ID_SUCCESS:
+            return {...state, oneNews: action.news};
+        default:
+            return state
+    }
 };
 
 

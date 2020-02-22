@@ -21,7 +21,7 @@ class FormNews extends Component {
     submitFile=(e)=>{
         e.preventDefault();
         const formData = new FormData();
-        Object.keys(this.state).forEach(key=> formData.append(key, this.state[key]))
+        Object.keys(this.state).forEach(key=> formData.append(key, this.state[key]));
         this.props.postNewPost(formData);
         this.props.history.push('/')
     };

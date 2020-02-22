@@ -23,10 +23,33 @@ const upload = multer({storage});
 
 
 router.get('/', async (req,res)=>{
+    const news = await mysqlDb.getConnection().query('SELECT * FROM `news`');
+    res.send(news)
+});
+
+router.get('/:id', async (req,res)=>{
+    const id = req.params.id;
+    const tools = await mysqlDb.getConnection().query('SELECT * FROM `news` WHERE `id` = ? ', id);
+    res.send(tools)
+});
+
+router.post('/', upload.single('image'), async (req,res)=>{
+    const posts = req.body;
+    posts.date = new Date().toISOString();
+    if (req.file){
+        posts.image = req.file.filename
+    }
+    await mysqlDb.getConnection().query('INSERT INTO `news` (`heading`, `description`, `image`, `date`) ' +
+        'VALUES (?,?,?,?)',
+        [posts.heading, posts.description, posts.image, posts.date]
+    );
     res.send('OK')
 });
-router.post('/', upload.single('image'), (req,res)=>{
-    res.send('Post')
+
+router.delete('/:id', async (req,res)=>{
+    const id = req.params.id;
+    await mysqlDb.getConnection().query('DELETE FROM `news` WHERE `id` = ?', id);
+    res.send("Deleted")
 });
 
 module.exports = router;
